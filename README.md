@@ -40,11 +40,11 @@ from zoomus import ZoomClient
 client = ZoomClient('API_KEY', 'API_SECRET')
 
 user_list_response = client.user.list()
-user_list = json.loads(user_list_response.content)
+user_list = json.loads(user_list_response.content.decode('utf-8'))
 
 for user in user_list['users']:
     user_id = user['id']
-    print(json.loads(client.meeting.list(user_id=user_id).content))
+    print(json.loads(client.meeting.list(user_id=user_id).content.decode('utf-8')))
 ```
 
 What one will note is that the returned object from a call using the client is a [requests](https://pypi.org/project/requests/) `Response` object. This is done so that if there is any error working with the API that one has complete control of handling all errors. As such, to actually get the list of users in the example above, one will have to load the JSON from the content of the `Response` object that is returned.
